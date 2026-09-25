@@ -1,0 +1,442 @@
+/* Clean slide deck on warm cotton. Titles are embroidered, everything else is quiet. */
+.deck-page,
+.deck-page #viewport {
+  background: #E9DFC2;
+}
+
+.deck {
+  --cotton: #EFE6CB;
+  --ink: #3A1813;
+  --ink-soft: rgba(58, 24, 19, 0.62);
+  --thread: #B8261E;
+}
+
+.deck .fabric {
+  background-color: var(--cotton);
+}
+
+.deck-top {
+  position: absolute;
+  left: 140px;
+  right: 140px;
+  top: 64px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 22px;
+  letter-spacing: 0.06em;
+  z-index: 40;
+}
+
+.deck-top .typed-font {
+  color: var(--thread);
+  opacity: 0.8;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  padding: 210px 140px 120px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 34px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+  z-index: 20;
+}
+
+.slide[data-active] {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.35s ease, visibility 0s;
+}
+
+.still .slide,
+.still .float {
+  transition: none !important;
+  animation: none !important;
+}
+
+.slide.cover,
+.slide.centered {
+  align-items: center;
+  text-align: center;
+}
+
+.label {
+  margin: 0;
+  font-family: "American Typewriter", "Courier Prime", "Courier New", monospace;
+  font-size: 26px;
+  letter-spacing: 0.08em;
+  color: var(--thread);
+}
+
+.label.muted {
+  color: var(--ink-soft);
+}
+
+.title span,
+.title-xl span {
+  font-size: 112px;
+}
+
+.title-xl span {
+  font-size: 164px;
+  line-height: 0.88;
+}
+
+.title,
+.title-xl {
+  margin: 0;
+}
+
+.lead,
+.body,
+.statement,
+.note {
+  margin: 0;
+  font-family: "Baskerville", "Libre Baskerville", Georgia, serif;
+  color: var(--ink);
+}
+
+.lead {
+  font-size: 44px;
+  font-style: italic;
+  max-width: 1300px;
+}
+
+.statement {
+  font-size: 58px;
+  line-height: 1.22;
+  max-width: 1480px;
+}
+
+.statement.big {
+  font-size: 72px;
+  line-height: 1.16;
+  max-width: 1500px;
+}
+
+.body {
+  font-size: 40px;
+  line-height: 1.34;
+  max-width: 1000px;
+}
+
+.body.strong {
+  font-style: italic;
+}
+
+.note {
+  font-size: 34px;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+/* 30 sec */
+.split {
+  flex-direction: row;
+  align-items: center;
+  gap: 110px;
+}
+
+.split-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.big-number span {
+  font-family: "Bodoni 72", "Didot", "Playfair Display", "Times New Roman", serif;
+  font-variant-numeric: lining-nums;
+  font-size: 380px;
+  line-height: 0.8;
+  text-align: center;
+}
+
+.big-number small {
+  display: block;
+  font-size: 96px;
+  letter-spacing: 0.12em;
+  margin-top: 48px;
+}
+
+/* Objective & outcome patches */
+.pair {
+  display: grid;
+  grid-template-columns: 1fr 90px 1fr;
+  align-items: center;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.patch {
+  position: relative;
+  padding: 56px 60px;
+  border-radius: 22px;
+  background: rgba(255, 252, 243, 0.72);
+  box-shadow: 0 10px 22px rgba(80, 50, 20, 0.1), 0 1px 2px rgba(80, 50, 20, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  min-height: 330px;
+  box-sizing: border-box;
+}
+
+.patch::after {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 2.5px dashed var(--thread);
+  border-radius: 14px;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.patch .body {
+  font-size: 40px;
+}
+
+.pair-link {
+  width: 90px;
+  height: 81px;
+}
+
+.pair-link svg,
+.timeline li::before svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Stitched bullet list */
+.stitch-list {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: "Baskerville", "Libre Baskerville", Georgia, serif;
+  font-size: 42px;
+  color: var(--ink);
+}
+
+.stitch-list.two-col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 620px));
+  column-gap: 90px;
+  row-gap: 30px;
+}
+
+.stitch-list li {
+  position: relative;
+  padding-left: 58px;
+}
+
+.stitch-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 32px;
+  border-top: 3px dashed var(--thread);
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  margin: 60px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  top: 22px;
+  border-top: 3px dashed var(--thread);
+  opacity: 0.7;
+}
+
+.timeline li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  padding-top: 76px;
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--cotton);
+  border: 3px dashed var(--thread);
+  box-sizing: border-box;
+}
+
+.timeline li.key::before {
+  width: 34px;
+  height: 34px;
+  top: 4px;
+  background: var(--thread);
+  border: 3px solid #7A1410;
+}
+
+.timeline b {
+  font-family: "American Typewriter", "Courier Prime", "Courier New", monospace;
+  font-weight: 400;
+  font-size: 26px;
+  color: var(--thread);
+}
+
+.timeline span {
+  font-family: "Baskerville", "Libre Baskerville", Georgia, serif;
+  font-size: 36px;
+  color: var(--ink);
+  line-height: 1.15;
+  max-width: 250px;
+}
+
+.timeline i {
+  font-family: "American Typewriter", "Courier Prime", "Courier New", monospace;
+  font-style: normal;
+  font-size: 20px;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+
+/* Warm-up prompts */
+.prompts {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.prompts span {
+  position: relative;
+  padding: 26px 44px;
+  border-radius: 999px;
+  background: rgba(255, 252, 243, 0.72);
+  font-family: "Baskerville", "Libre Baskerville", Georgia, serif;
+  font-size: 46px;
+  color: var(--ink);
+  box-shadow: 0 8px 18px rgba(80, 50, 20, 0.08);
+}
+
+.prompts span::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 2.5px dashed var(--thread);
+  border-radius: 999px;
+  opacity: 0.55;
+}
+
+/* Numbered steps */
+.steps {
+  counter-reset: step;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.steps li {
+  counter-increment: step;
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  font-family: "Baskerville", "Libre Baskerville", Georgia, serif;
+  font-size: 50px;
+  color: var(--ink);
+}
+
+.steps li::before {
+  content: counter(step);
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 3px dashed var(--thread);
+  font-family: "Bodoni 72", "Didot", "Times New Roman", serif;
+  font-weight: 700;
+  font-size: 38px;
+  color: var(--thread);
+  box-sizing: border-box;
+}
+
+/* Cupids */
+.cupid {
+  position: absolute;
+  pointer-events: none;
+}
+
+.cupid img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  filter: drop-shadow(0 2px 1.5px rgba(70, 30, 10, 0.22));
+}
+
+#stage[data-boil="0"] .cupid img:nth-child(1),
+#stage[data-boil="1"] .cupid img:nth-child(2),
+#stage[data-boil="2"] .cupid img:nth-child(3) {
+  opacity: 1;
+}
+
+.cover .cupid {
+  width: 330px;
+  height: 330px;
+  left: 190px;
+  top: 150px;
+}
+
+.centered .cupid {
+  width: 300px;
+  height: 300px;
+  right: 230px;
+  top: 170px;
+}
+
+.corner-cupid {
+  width: 300px;
+  height: 300px;
+  right: 150px;
+  bottom: 90px;
+}
+
+.seal-cupid {
+  width: 200px;
+  height: 267px;
+  right: 220px;
+  top: 300px;
+  transform: rotate(-8deg);
+}
+
+.float {
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -16px; }
+}
+
+.deck .vignette {
+  background: radial-gradient(ellipse at 50% 48%, rgba(0, 0, 0, 0) 62%, rgba(92, 62, 30, 0.14) 100%);
+}

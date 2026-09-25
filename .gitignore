@@ -6,3 +6,5 @@ dist/
 __pycache__/
 .DS_Store
 *.log
+.vercel
+slides/export/png/
