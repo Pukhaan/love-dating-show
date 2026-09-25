@@ -1,0 +1,249 @@
+:root {
+  --cotton: #EEE7D5;
+  --thread-brown: #3A1813;
+  --ink-red: #C3251D;
+  --ink-blue: #2440A8;
+  --typed-blue: #2D3FC4;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #E6DDC7;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+body.hide-cursor,
+body.hide-cursor * {
+  cursor: none !important;
+}
+
+.defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+#viewport {
+  position: fixed;
+  inset: 0;
+  background: #E6DDC7;
+  overflow: hidden;
+}
+
+#stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  transform-origin: 50% 50%;
+  transform: translate(-50%, -50%);
+  background: var(--cotton);
+}
+
+.fabric,
+.weave,
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.fabric {
+  background-color: var(--cotton);
+  background-image:
+    linear-gradient(115deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 38%, rgba(120, 90, 50, 0.07) 72%, rgba(255, 255, 255, 0.08)),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .33  0 0 0 0 .25  0 0 0 0 .16  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.38'/></svg>");
+}
+
+.weave {
+  background:
+    repeating-linear-gradient(0deg, rgba(105, 80, 45, 0.075) 0 1px, rgba(255, 255, 255, 0.06) 1px 2px, rgba(0, 0, 0, 0) 2px 4px),
+    repeating-linear-gradient(90deg, rgba(105, 80, 45, 0.06) 0 1px, rgba(255, 255, 255, 0.05) 1px 2px, rgba(0, 0, 0, 0) 2px 4px);
+  mix-blend-mode: multiply;
+}
+
+.vignette {
+  background: radial-gradient(ellipse at 50% 48%, rgba(0, 0, 0, 0) 58%, rgba(92, 62, 30, 0.2) 100%);
+  z-index: 90;
+}
+
+#ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Embroidered lettering: thread stripes clipped to the glyphs. */
+.stitch-text span {
+  display: inline-block;
+  font-family: "Bodoni 72 Oldstyle", "Bodoni 72", "Didot", "Playfair Display", "Times New Roman", serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
+  line-height: 0.9;
+  color: var(--thread-brown);
+  background: repeating-linear-gradient(104deg, #4E211B 0 1.6px, #2A0F0B 1.6px 3px, #5E2A22 3px 4.4px);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.55)) drop-shadow(0 2px 1.5px rgba(60, 30, 10, 0.28));
+}
+
+.typed-font {
+  font-family: "American Typewriter", "Courier Prime", "Courier New", monospace;
+  color: var(--typed-blue);
+}
+
+.brand {
+  position: absolute;
+  left: 72px;
+  top: 58px;
+  z-index: 40;
+}
+
+.brand span {
+  font-size: 30px;
+  letter-spacing: 0.04em;
+}
+
+.round {
+  position: absolute;
+  right: 72px;
+  top: 60px;
+  font-size: 26px;
+  opacity: 0.85;
+  z-index: 40;
+}
+
+#captions {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 118px;
+  height: 230px;
+  z-index: 30;
+}
+
+.caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  text-align: center;
+}
+
+.caption span {
+  font-size: 104px;
+}
+
+.typed {
+  position: absolute;
+  left: 96px;
+  bottom: 96px;
+  z-index: 25;
+}
+
+.typed p {
+  margin: 0;
+  font-family: "American Typewriter", "Courier Prime", "Courier New", monospace;
+  font-size: 27px;
+  line-height: 1.22;
+  color: var(--typed-blue);
+  opacity: 0.82;
+  white-space: nowrap;
+}
+
+.typed p.offset {
+  margin-top: -22px;
+  margin-left: 6px;
+  opacity: 0.55;
+}
+
+/* Frame-by-frame wobble, like a stop-motion embroidered loop. */
+#stage[data-boil="1"] .stitch-text span { transform: translate(0.7px, -0.5px) rotate(0.12deg); }
+#stage[data-boil="2"] .stitch-text span { transform: translate(-0.6px, 0.4px) rotate(-0.1deg); }
+
+.sprite {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+
+.sprite img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  filter: drop-shadow(0 2px 1.5px rgba(70, 30, 10, 0.25));
+}
+
+#stage[data-boil="0"] .sprite img:nth-child(1),
+#stage[data-boil="1"] .sprite img:nth-child(2),
+#stage[data-boil="2"] .sprite img:nth-child(3) {
+  opacity: 1;
+}
+
+#start {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(230, 221, 199, 0.92);
+}
+
+#start[data-hidden] {
+  display: none !important;
+}
+
+.start-card {
+  text-align: center;
+}
+
+.start-title span {
+  font-size: 88px;
+}
+
+#startBtn {
+  margin-top: 28px;
+  padding: 16px 34px;
+  font-family: "American Typewriter", "Courier Prime", "Courier New", monospace;
+  font-size: 24px;
+  color: var(--ink-red);
+  background: #FBF6EA;
+  border: 2px dashed var(--ink-red);
+  border-radius: 999px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.start-hint {
+  margin-top: 18px;
+  font-size: 18px;
+  opacity: 0.7;
+}
+
+#soundHint {
+  position: fixed;
+  right: 24px;
+  bottom: 20px;
+  z-index: 150;
+  font-size: 18px;
+  opacity: 0.75;
+  display: none;
+}
+
+#soundHint[data-show] {
+  display: block;
+}

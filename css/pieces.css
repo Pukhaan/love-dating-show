@@ -1,0 +1,195 @@
+/* Cards, arrow, heart and envelope. Everything is placed by its center with GSAP x/y. */
+#deck,
+#arrow,
+#bigHeart,
+#burst,
+#envGroup {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+#deck { z-index: 10; }
+#thread { position: absolute; left: 0; top: 0; z-index: 12; pointer-events: none; }
+#arrow { z-index: 14; width: 380px; height: 70px; }
+#bigHeart { z-index: 16; width: 320px; height: 288px; }
+#burst { z-index: 17; }
+#envGroup { z-index: 20; width: 560px; height: 360px; }
+#cupidBow { z-index: 50; width: 480px; height: 480px; }
+#cupidLetter { z-index: 50; width: 520px; height: 520px; }
+#seal { width: 200px; height: 267px; left: 180px; top: 70px; z-index: 5; }
+
+#arrow svg,
+#bigHeart svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 3px 2px rgba(70, 30, 10, 0.22));
+}
+
+.card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 260px;
+  height: 380px;
+}
+
+.card-inner {
+  position: absolute;
+  inset: 0;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+.card-back,
+.card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  box-shadow: 0 12px 22px rgba(70, 40, 20, 0.16), 0 2px 3px rgba(70, 40, 20, 0.18);
+}
+
+.card-back::before,
+.card-face::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg, rgba(90, 60, 40, 0.08) 0 1px, rgba(0, 0, 0, 0) 1px 3px),
+    repeating-linear-gradient(90deg, rgba(90, 60, 40, 0.07) 0 1px, rgba(0, 0, 0, 0) 1px 3px);
+}
+
+.card-back::after,
+.card-face::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 2.5px dashed var(--ink-red);
+  border-radius: 10px;
+  opacity: 0.85;
+}
+
+.card-back {
+  background: #F1B2C4;
+}
+
+.card-back .back-heart {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 104px;
+  height: 94px;
+  transform: translate(-50%, -50%);
+}
+
+.card-back .back-word {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: "American Typewriter", "Courier Prime", "Courier New", monospace;
+  font-size: 18px;
+  letter-spacing: 0.3em;
+  color: var(--ink-red);
+}
+
+.card-back .back-word.top { top: 34px; }
+.card-back .back-word.bottom { bottom: 34px; transform: rotate(180deg); }
+
+.card-face {
+  background: #FBF6EA;
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+
+.corner {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--ink-red);
+  font-family: "American Typewriter", "Courier Prime", "Courier New", monospace;
+}
+
+.corner b {
+  font-family: "Bodoni 72", "Didot", "Times New Roman", serif;
+  font-size: 40px;
+  line-height: 1;
+}
+
+.corner svg { width: 22px; height: 20px; }
+
+.corner i {
+  font-style: normal;
+  font-size: 15px;
+  letter-spacing: 0.18em;
+  -webkit-writing-mode: vertical-rl;
+  writing-mode: vertical-rl;
+}
+
+.corner.tl { left: 26px; top: 24px; }
+.corner.tr { right: 26px; top: 24px; }
+.corner.bl { left: 26px; bottom: 24px; transform: rotate(180deg); }
+.corner.br { right: 26px; bottom: 24px; transform: rotate(180deg); }
+
+.half {
+  position: absolute;
+  top: 70px;
+  width: 100px;
+  height: 180px;
+}
+
+.half.left { right: 0; }
+.half.right { left: 0; }
+
+.burst-heart {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 34px;
+  height: 31px;
+}
+
+.envelope {
+  position: absolute;
+  inset: 0;
+}
+
+.env-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: #F7F1E3;
+  box-shadow: 0 16px 30px rgba(70, 40, 20, 0.18), 0 2px 4px rgba(70, 40, 20, 0.2);
+}
+
+.env-heart {
+  position: absolute;
+  left: 205px;
+  top: -60px;
+  width: 150px;
+  height: 135px;
+}
+
+.env-front,
+.env-flap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 560px;
+  overflow: visible;
+}
+
+.env-front { height: 360px; }
+.env-flap { height: 210px; transform-origin: 50% 0%; filter: drop-shadow(0 4px 3px rgba(70, 40, 20, 0.16)); }
+
+.ambient-bit {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
