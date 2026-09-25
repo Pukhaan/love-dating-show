@@ -14,6 +14,10 @@ A 72-second looping background scene for a dating show, made to play full screen
 
 The round number in the top right counts up every loop.
 
+## Vibes loop
+
+`vibes.html` has no story and no text: a pink stitched-cotton background, felt and bokeh hearts drifting up in three depths, sparkles, and cupids that float across every 8 to 12 seconds trailing small hearts. It uses the same music and the same keys.
+
 ## Run it
 
 Open `index.html` through any local server, then click **click to begin**.

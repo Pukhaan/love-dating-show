@@ -6,15 +6,19 @@ so swapping them at a low frame rate reads as a hand-stitched loop.
 import math
 import random
 import sys
+import zlib
 from pathlib import Path
 
 from PIL import Image, ImageChops, ImageFilter
 
-INKS = {
-    "cupid-bow": (196, 36, 30),
-    "cupid-letter": (196, 36, 30),
-    "cupid-seal": (32, 58, 160),
-}
+# (source drawing, output name, thread color)
+INKS = [
+    ("cupid-bow", "cupid-bow", (196, 36, 30)),
+    ("cupid-letter", "cupid-letter", (196, 36, 30)),
+    ("cupid-seal", "cupid-seal", (32, 58, 160)),
+    ("cupid-bow", "cupid-bow-white", (255, 244, 248)),
+    ("cupid-letter", "cupid-letter-white", (255, 244, 248)),
+]
 TARGET_WIDTH = 640
 VARIANTS = 3
 
@@ -53,31 +57,37 @@ def wobble(mask: Image.Image, seed: int) -> Image.Image:
     return mask.rotate(rot, resample=Image.BICUBIC, translate=(dx, dy))
 
 
-def render(src: Path, out_dir: Path, ink_rgb) -> None:
+def render(src: Path, out_dir: Path, out_name: str, ink_rgb) -> None:
     img = Image.open(src).convert("RGB")
     scale = TARGET_WIDTH / img.width
     img = img.resize((TARGET_WIDTH, int(img.height * scale)), Image.LANCZOS)
     base_mask = ink_mask(img)
     for i in range(VARIANTS):
-        seed = hash((src.stem, i)) & 0xFFFF
+        seed = zlib.crc32(f"{out_name}-{i}".encode()) & 0xFFFF
         mask = wobble(base_mask, seed)
         field = stitch_field(img.size, seed, angle_deg=14 + i * 3, period=3.6)
-        r, g, b = ink_rgb
         # Blank the thread texture outside the ink so empty pixels compress well.
         shade = ImageChops.multiply(field, mask.point(lambda v: 255 if v > 3 else 0))
-        red = shade.point(lambda v, c=r: min(255, int(c * v / 255 + 28 * (v / 255) ** 6)))
-        grn = shade.point(lambda v, c=g: min(255, int(c * v / 255 + 28 * (v / 255) ** 6)))
-        blu = shade.point(lambda v, c=b: min(255, int(c * v / 255 + 28 * (v / 255) ** 6)))
+        # Light thread keeps its brightness; stitches only dip slightly, with a pink cast.
+        light = sum(ink_rgb) > 600
+        tints = (1.0, 0.9, 0.94) if light else (1.0, 1.0, 1.0)
+
+        def channel(c, tint):
+            if light:
+                return lambda v: min(255, int(c * (0.8 + 0.2 * v / 255) * (tint + (1 - tint) * v / 255)))
+            return lambda v: min(255, int(c * v / 255 + 28 * (v / 255) ** 6))
+
+        red, grn, blu = (shade.point(channel(c, t)) for c, t in zip(ink_rgb, tints))
         out = Image.merge("RGBA", (red, grn, blu, mask))
-        out.save(out_dir / f"{src.stem}-{i}.png", optimize=True)
-        print("wrote", out_dir / f"{src.stem}-{i}.png")
+        out.save(out_dir / f"{out_name}-{i}.png", optimize=True)
+        print("wrote", out_dir / f"{out_name}-{i}.png")
 
 
 def main() -> None:
     src_dir, out_dir = Path(sys.argv[1]), Path(sys.argv[2])
     out_dir.mkdir(parents=True, exist_ok=True)
-    for name, rgb in INKS.items():
-        render(src_dir / f"{name}.png", out_dir, rgb)
+    for src_name, out_name, rgb in INKS:
+        render(src_dir / f"{src_name}.png", out_dir, out_name, rgb)
 
 
 if __name__ == "__main__":
